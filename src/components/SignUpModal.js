@@ -1,10 +1,25 @@
-import { useState } from 'react';
-import { Modal, Form, Input, Button, Checkbox } from 'antd';
+import { useState } from "react";
+import { Modal, Form, Input, Button, Checkbox, notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 
-const SignUpModal = ({signUpModal, setSignUpModal}) => {
-
+const SignUpModal = ({ signUpModal, setSignUpModal }) => {
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = () => {
+    api.open({
+      message: "Our backend is under maintenance",
+      description:
+        "Please hold tight as our backend team is currently unavailable..",
+      icon: (
+        <SmileOutlined
+          style={{
+            color: "#108ee9",
+          }}
+        />
+      ),
+    });
+  };
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    console.log("Received values of form: ", values);
   };
 
   const handleCancel = () => {
@@ -17,16 +32,17 @@ const SignUpModal = ({signUpModal, setSignUpModal}) => {
 
   return (
     <>
+      {contextHolder}
+
       <Modal
         title="Welcome back we missed you!"
         visible={signUpModal}
         onCancel={handleCancel}
         footer={null}
       >
-
         <Form
           name="basic"
-          layout='vertical'
+          layout="vertical"
           initialValues={{
             remember: true,
           }}
@@ -39,7 +55,7 @@ const SignUpModal = ({signUpModal, setSignUpModal}) => {
             rules={[
               {
                 required: true,
-                message: 'Please input your email!',
+                message: "Please input your email!",
               },
             ]}
           >
@@ -52,7 +68,7 @@ const SignUpModal = ({signUpModal, setSignUpModal}) => {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: "Please input your password!",
               },
             ]}
           >
@@ -63,20 +79,37 @@ const SignUpModal = ({signUpModal, setSignUpModal}) => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <Form.Item style={{ flexDirection: "column", display: "flex", alignItems: "center", justifyContent: "center" }}>
-  <Button type="primary" htmlType="submit" style={{width: 115}}>
-    Login
-  </Button>
-  <span style={{ margin: "0 10px 100px 20px" }}>or</span>
-  <Button type="link">
-    Forgot password?
-  </Button>
-</Form.Item>
-    <Form.Item style={{ flexDirection: "column", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <Button type="primary" htmlType="submit" style={{width:300}}>
-        Sign Up
-      </Button>
-    </Form.Item>
+          <Form.Item
+            style={{
+              flexDirection: "column",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              onClick={openNotification}
+              type="primary"
+              htmlType="submit"
+              style={{ width: 115 }}
+            >
+              Login
+            </Button>
+            <span style={{ margin: "0 10px 100px 20px" }}>or</span>
+            <Button onClick={openNotification} type="link">Forgot password?</Button>
+          </Form.Item>
+          <Form.Item
+            style={{
+              flexDirection: "column",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button onClick={openNotification} type="primary" htmlType="submit" style={{ width: 300 }}>
+              Sign Up
+            </Button>
+          </Form.Item>
         </Form>
       </Modal>
     </>

@@ -26,11 +26,12 @@ const BlackScreen = () => {
   return (
     <div
       style={{
-        left: "-35rem",
         position: "fixed",
-        width: "75rem",
-        height: "35rem",
-        backgroundColor: "black",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "50rem",
+        backgroundColor: "rgba(0,0,0,0.8)",
         zIndex: 9999,
         display: "flex",
         flexDirection: "column",
@@ -39,30 +40,48 @@ const BlackScreen = () => {
         borderRadius: "20px",
       }}
     >
-      <input
-        type="text"
-        placeholder="write your UI description here"
+      <div
         style={{
-          width: "80%",
-          padding: "10px",
-          fontSize: "20px",
-          marginBottom: "20px",
-          marginTop: "400px",
-        }}
-      />
-      <button
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "white",
-          color: "black",
-          fontSize: "20px",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
+          width: "75rem",
+          height: "35rem",
+          backgroundColor: "black",
+          borderRadius: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+          position: "relative",
+          top: "50%",
+          transform: "translateY(-50%)",
         }}
       >
-        Generate
-      </button>
+        <input
+          type="text"
+          placeholder="write your UI description here"
+          style={{
+            width: "80%",
+            padding: "10px",
+            fontSize: "20px",
+            marginBottom: "20px",
+            marginTop: "20px"
+          }}
+        />
+        <button
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "white",
+            color: "black",
+            fontSize: "20px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+          onClick={()=>console.log('hess')}
+        >
+          Generate
+        </button>
+      </div>
     </div>
   );
 };
@@ -89,6 +108,34 @@ const Lights = () => {
       {/* Spotlight Large overhead light */}
       <spotLight intensity={1} position={[1000, 0, 0]} castShadow />
     </>
+  );
+};
+const ScreenOne = ({ bgColor, position, children, domContent, modelPath }) => {
+  const ref = useRef();
+  useFrame(() => {
+    ref.current.rotation.z -= 0.01;
+    // rotate around z-plane
+  });
+  const [refItem, inView] = useInView({
+    threshold: 0,
+  });
+  useEffect(() => {
+    inView && (document.body.style.background = bgColor);
+  }, [inView]);
+
+  return (
+    <Section factor={1.5} offset={1}>
+      <group position={[0, position, 0]}>
+        <mesh ref={ref} scale={[2, 2, 2]}>
+          <Model url={modelPath} />
+        </mesh>
+        <Html fullscreen portal={domContent}>
+          <div ref={refItem} className="container">
+            <h1 className="title">{children}</h1>
+          </div>
+        </Html>
+      </group>
+    </Section>
   );
 };
 const Screen = ({ bgColor, position, children, domContent, modelPath }) => {
@@ -143,7 +190,10 @@ const HTMLContent = ({
   position,
 }) => {
   const ref = useRef();
-  useFrame(() => (ref.current.rotation.y += 0.01));
+  useFrame(() => {
+    ref.current.rotation.z -= 0.01;
+    // rotate around z-plane
+  });
   const [refItem, inView] = useInView({
     threshold: 0,
   });
@@ -153,7 +203,7 @@ const HTMLContent = ({
   return (
     <Section factor={1.5} offset={1}>
       <group position={[0, position, 0]}>
-        <mesh ref={ref} position={[0, -35, 0]}>
+        <mesh ref={ref} scale={[2, 2, 2]}>
           <Model url={modelPath} />
         </mesh>
         <Html fullscreen portal={domContent}>
@@ -217,7 +267,7 @@ export default function App() {
           <HTMLContent
             domContent={domContent}
             bgColor="#f15946"
-            modelPath="/armchairYellow.gltf"
+            modelPath="/sceneTwo.gltf"
             position={250}
           >
             <span style={{ fontSize: "5rem" }}>Create mobile UI </span>
@@ -227,7 +277,7 @@ export default function App() {
             domContent={domContent}
             bgColor="#2b2a2b"
             position={0}
-            modelPath="/scene.gltf"
+            modelPath="/sceneOne.gltf"
           >
             <BlackScreen
               style={{ width: "100%", height: "100%", borderRadius: "50px" }}
@@ -236,7 +286,7 @@ export default function App() {
           <HTMLContent
             domContent={domContent}
             bgColor="#571ec1"
-            modelPath="/armchairGreen.gltf"
+            modelPath="/scene.gltf"
             position={-250}
           >
             <span style={{ fontSize: "5rem" }}>Shit... we even</span>
