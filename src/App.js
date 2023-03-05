@@ -3,6 +3,8 @@ import "./App.scss";
 //Components
 import Header from "./components/header";
 import { Section } from "./components/section";
+import { notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 
 // Page State
 import state from "./components/state";
@@ -23,66 +25,85 @@ function Model({ url }) {
 }
 
 const BlackScreen = () => {
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = () => {
+    api.open({
+      message: "Our backend is under maintenance",
+      description:
+        "Please hold tight as our backend team is currently unavailable..",
+      icon: (
+        <SmileOutlined
+          style={{
+            color: "#108ee9",
+          }}
+        />
+      ),
+    });
+  };
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "50rem",
-        backgroundColor: "rgba(0,0,0,0.8)",
-        zIndex: 9999,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: "20px",
-      }}
-    >
+    <>
+      {contextHolder}
+
       <div
         style={{
-          width: "75rem",
-          height: "35rem",
-          backgroundColor: "black",
-          borderRadius: "20px",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "50rem",
+          backgroundColor: "rgba(0,0,0,0.8)",
+          zIndex: 9999,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "2rem",
-          position: "relative",
-          top: "50%",
-          transform: "translateY(-50%)",
+          borderRadius: "20px",
         }}
       >
-        <input
-          type="text"
-          placeholder="write your UI description here"
+        <div
           style={{
-            width: "80%",
-            padding: "10px",
-            fontSize: "20px",
-            marginBottom: "20px",
-            marginTop: "20px"
+            width: "75rem",
+            height: "35rem",
+            backgroundColor: "black",
+            borderRadius: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "2rem",
+            position: "relative",
+            top: "50%",
+            transform: "translateY(-50%)",
           }}
-        />
-        <button
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "white",
-            color: "black",
-            fontSize: "20px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-          onClick={()=>console.log('hess')}
         >
-          Generate
-        </button>
+          <input
+            type="text"
+            placeholder="write your UI description here"
+            style={{
+              width: "80%",
+              padding: "10px",
+              fontSize: "20px",
+              marginBottom: "20px",
+              marginTop: "20px",
+            }}
+          />
+          <button
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "white",
+              color: "black",
+              fontSize: "20px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            onClick={openNotification}
+          >
+            Generate
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -168,8 +189,8 @@ const Screen = ({ bgColor, position, children, domContent, modelPath }) => {
 
   return (
     <Section factor={1.5} offset={1}>
-      <group position={[0, position, 0]}>
-        <mesh ref={ref} scale={[2, 2, 2]} position={[0,-50,0]}>
+      <group position={[0, position + 75, 0]}>
+        <mesh ref={ref} scale={[2, 2, 2]} position={[0, -100, 0]}>
           <Model url={modelPath} />
         </mesh>
         <Html fullscreen portal={domContent}>
@@ -255,6 +276,7 @@ export default function App() {
   return (
     <>
       <Header />
+
       {/* R3F Canvas */}
       <Canvas
         concurrent
@@ -272,6 +294,7 @@ export default function App() {
           >
             <span style={{ fontSize: "5rem" }}>Create mobile UI </span>
             <span style={{ fontSize: "5rem" }}>creating UI experience </span>
+            <span style={{ fontSize: "5rem" }}>In No Time </span>
           </HTMLContent>
           <Screen
             domContent={domContent}
