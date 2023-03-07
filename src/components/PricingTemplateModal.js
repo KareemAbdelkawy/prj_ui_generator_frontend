@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form, InputNumber, Select } from "antd";
+import { Modal, Form, Select } from "antd";
 
 const { Option } = Select;
 

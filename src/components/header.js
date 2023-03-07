@@ -50,9 +50,6 @@ export default function Header() {
                 Login
               </a>
             </li>
-            {/* <li className='btn'>
-              <a href='/'>order</a>
-            </li> */}
           </ul>
         </nav>
       </div>
