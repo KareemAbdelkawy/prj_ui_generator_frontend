@@ -40,10 +40,14 @@ const PricingTemplateModal = ({ visible, onCancel, onSubmit }) => {
       visible={visible}
       onCancel={handleCancel}
       onOk={handleSubmit}
-      okText='Subscribe'
+      okText="Subscribe"
     >
       <Form layout="vertical" form={form}>
-        <Form.Item label="selecet a plan" name="plan" rules={[{ required: true }]}>
+        <Form.Item
+          label="selecet a plan"
+          name="plan"
+          rules={[{ required: true }]}
+        >
           <Select onChange={handlePlanChange} placeholder="Select a plan">
             <Option value="basic">Basic (${fakePrices.basic})</Option>
             <Option value="pro">Pro (${fakePrices.pro})</Option>

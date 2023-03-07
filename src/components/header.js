@@ -3,7 +3,6 @@ import { useState } from "react";
 import SignUpModal from "./SignUpModal";
 import PricingTemplateModal from "./PricingTemplateModal";
 
-
 export default function Header() {
   const [signUpModal, setSignUpModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +39,9 @@ export default function Header() {
               <a href="#">discover</a>
             </li>
             <li>
-              <a onClick={() => setModalVisible(true)} href="#">Pricing</a>
+              <a onClick={() => setModalVisible(true)} href="#">
+                Pricing
+              </a>
             </li>
             <li>
               <a href="#">Demo</a>

@@ -297,7 +297,7 @@ export default function App() {
             modelPath="/scene.gltf"
             position={-250}
           >
-            <span style={{ fontSize: "5rem" }}>we even ..</span>
+            <span style={{ fontSize: "5rem" }}>we even ...</span>
             <span style={{ fontSize: "5rem" }}>create web UI</span>
           </HTMLContent>
         </Suspense>
